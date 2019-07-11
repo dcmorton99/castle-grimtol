@@ -57,7 +57,6 @@ namespace CastleGrimtol.Project
 
     public void Inventory()
     {
-
       throw new System.NotImplementedException();
     }
 
@@ -65,14 +64,23 @@ namespace CastleGrimtol.Project
     {
 
       Thread.Sleep(1000);
-      Console.WriteLine(CurrentRoom.Description);
+      Console.WriteLine($"{ CurrentRoom.Description}");
     }
 
     public void Quit()
     {
       Console.Clear();
-      Console.WriteLine("Game Over Man!");
-      Running = false;
+      Console.WriteLine("You sure? y/n?");
+      if (Console.ReadLine().ToLower() == "y")
+      {
+        Console.WriteLine($"Well, {CurrentPlayer.PlayerName}, you're done.");
+        Running = false;
+      }
+      else
+      {
+        Look();
+      }
+
     }
 
     public void Reset()
