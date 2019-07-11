@@ -101,15 +101,17 @@ namespace CastleGrimtol.Project
         string response = Console.ReadLine().ToLower();
         string[] inputs = response.Split(' ');
         string command = inputs[0];
-        // string option = "";
-        // if (inputs.Length > 1)
-        // {
-        //   option = inputs[1];
-        // }
-        // switch (command)
-        // {
-
-        // }
+        string option = ""; //takes in second word of response
+        if (inputs.Length > 1)
+        {
+          option = inputs[1];
+        }
+        switch (command)
+        {
+          case "go":
+            CurrentRoom = (Room)CurrentRoom.LeaveRoom(option);
+            break;
+        }
 
 
 
