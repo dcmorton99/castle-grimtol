@@ -10,7 +10,7 @@ namespace CastleGrimtol.Project
   {
     public Room CurrentRoom { get; set; }
     public Player CurrentPlayer { get; set; }
-    private bool Running { get; set; }
+    private bool Running = true;
 
 
     public void GetUserInput()
@@ -124,7 +124,7 @@ namespace CastleGrimtol.Project
       Console.WriteLine("Welcome to Barbie and the Life in the Dreamhouse! What is your name?");
       string name = Console.ReadLine();
       CurrentPlayer = new Player(name);
-      StartGame();
+
     }
 
     public void StartGame()
@@ -133,45 +133,14 @@ namespace CastleGrimtol.Project
       {
         Console.Clear();
         CurrentRoom.PrintRoom();
-        //clarify through text later
         GetUserInput();
-        // string[] inputs = response.Split(' ');
-        // string command = inputs[0];
-        // string option = "";
-        // if (inputs.Length > 1)
-        // {
-        //   option = inputs[1];
-        // }
-        // switch (command)
-        // {
-        //   case "go":
-        //     Go(option);
-        //     break;
-        //   case "take":
-        //     TakeItem(option);
-        //     break;
-        //   case "look":
-        //     Console.Clear();
-        //     Look();
-        //     break;
-        //   case "inventory":
-        //     Console.Clear();
-        //     Console.WriteLine("You have the following:");
-        //     CurrentPlayer.PrintInventory();
-        //     break;
-        //   case "quit":
-        //     Quit();
-        //     break;
-
-        // }
-
-
-
       }
     }
 
     public void TakeItem(string itemName)
     {
+      //will take in the item name as a string
+      //will match 
       throw new System.NotImplementedException();
     }
 
@@ -183,7 +152,7 @@ namespace CastleGrimtol.Project
 
     public GameService()
     {
-      Running = true;
+
       Setup();
     }
 

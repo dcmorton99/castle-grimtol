@@ -9,7 +9,7 @@ namespace CastleGrimtol
     {
       Console.Clear();
       GameService game = new GameService();
-      game.Setup();
+      game.StartGame();
 
     }
   }
