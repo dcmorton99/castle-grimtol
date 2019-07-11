@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using CastleGrimtol.Project.Interfaces;
 using CastleGrimtol.Project.Models;
 
@@ -9,18 +10,45 @@ namespace CastleGrimtol.Project
   {
     public Room CurrentRoom { get; set; }
     public Player CurrentPlayer { get; set; }
-    private bool Running = true;
+    private bool Running { get; set; }
 
 
     public void GetUserInput()
     {
-      throw new System.NotImplementedException();
+      Console.WriteLine("What would you like to do?<go 'direction', take 'item', look, use 'item', inventory, quit>");
+      string response = Console.ReadLine().ToLower();
+      string[] inputs = response.Split(' ');
+      string command = inputs[0];
+      string option = "";
+      if (inputs.Length > 1)
+      {
+        option = inputs[1];
+      }
+      switch (command)
+      {
+        case "go":
+          Go(option);
+          break;
+        case "take":
+          TakeItem(option);
+          break;
+        case "look":
+          Console.Clear();
+          Look();
+          break;
+        case "inventory":
+          Console.Clear();
+          Console.WriteLine("You have the following:");
+          CurrentPlayer.PrintInventory();
+          break;
+        case "quit":
+          Quit();
+          break;
+
+      }
     }
 
-    public void Go(string direction)
-    {
-      throw new System.NotImplementedException();
-    }
+    public void Go(string direction) => CurrentRoom = (Room)CurrentRoom.LeaveRoom(direction);
 
     public void Help()
     {
@@ -29,17 +57,22 @@ namespace CastleGrimtol.Project
 
     public void Inventory()
     {
+
       throw new System.NotImplementedException();
     }
 
     public void Look()
     {
+
+      Thread.Sleep(1000);
       Console.WriteLine(CurrentRoom.Description);
     }
 
     public void Quit()
     {
-      throw new System.NotImplementedException();
+      Console.Clear();
+      Console.WriteLine("Game Over Man!");
+      Running = false;
     }
 
     public void Reset()
@@ -51,7 +84,7 @@ namespace CastleGrimtol.Project
     {
 
       //Rooms
-      Room foyer = new Room("Foyer", "As you walk into the foyer, you see your favorite ficus overturned, soil spilled onto the Italian marble floor. You can hear the faint mewing of Blissa, but you aren't sure which direction it is coming from. To the north is entrance to the living room and to the east is an open window.");
+      Room foyer = new Room("Foyer", "As you walk into the foyer, you see your favorite ficus overturned, soil spilled onto the Italian marble floor.There is an unopened bottle of evian sitting on your foyer table. You can hear the faint mewing of Blissa, but you aren't sure which direction it is coming from. To the north is entrance to the living room and to the east is an open window.");
       Room window = new Room("Window", "great job, you have accomplished nothing.");
       Room livRoom = new Room("Living Room", "Passing through the entry way, you hear dishes clanging from the kitchen. The door to the kitchen is north, but you still hear Blissa mewing, this time a bit more frantically. The sound could be coming from upstairs. Do you go to the kitchen to investigate, or to you take the stairs to the west?");
       Room kitchen = new Room("Kitchen", "Nothing to see hear, Skipper is just making a mess and some cookies. As you approach Skipper, you hear a loud crash come from upstairs and very clearly hear Blissa frantically shrieking!");
@@ -70,11 +103,14 @@ namespace CastleGrimtol.Project
       //Exits
       foyer.Exits.Add("east", window);//if you go to the window, nothing happens
       foyer.Exits.Add("north", livRoom);
-      livRoom.Exits.Add("north", kitchen);
+      livRoom.Exits.Add("north", kitchen);//you lose
       livRoom.Exits.Add("west", landing);
+      livRoom.Exits.Add("south", foyer);
+      kitchen.Exits.Add("south", livRoom);
       landing.Exits.Add("north", bedroom);
       landing.Exits.Add("west", skRoom);
-      bedroom.Exits.Add("west", bathroom);
+      bedroom.Exits.Add("south", landing);
+      bedroom.Exits.Add("west", bathroom);//you lose
       bedroom.Exits.Add("east", closet);
 
       //Relationships
@@ -97,21 +133,37 @@ namespace CastleGrimtol.Project
       {
         Console.Clear();
         CurrentRoom.PrintRoom();
-        Console.WriteLine("What would you like to do?<go 'direction', take 'item', look, use 'item'>"); //clarify through text later
-        string response = Console.ReadLine().ToLower();
-        string[] inputs = response.Split(' ');
-        string command = inputs[0];
-        string option = ""; //takes in second word of response
-        if (inputs.Length > 1)
-        {
-          option = inputs[1];
-        }
-        switch (command)
-        {
-          case "go":
-            CurrentRoom = (Room)CurrentRoom.LeaveRoom(option);
-            break;
-        }
+        //clarify through text later
+        GetUserInput();
+        // string[] inputs = response.Split(' ');
+        // string command = inputs[0];
+        // string option = "";
+        // if (inputs.Length > 1)
+        // {
+        //   option = inputs[1];
+        // }
+        // switch (command)
+        // {
+        //   case "go":
+        //     Go(option);
+        //     break;
+        //   case "take":
+        //     TakeItem(option);
+        //     break;
+        //   case "look":
+        //     Console.Clear();
+        //     Look();
+        //     break;
+        //   case "inventory":
+        //     Console.Clear();
+        //     Console.WriteLine("You have the following:");
+        //     CurrentPlayer.PrintInventory();
+        //     break;
+        //   case "quit":
+        //     Quit();
+        //     break;
+
+        // }
 
 
 
@@ -131,6 +183,7 @@ namespace CastleGrimtol.Project
 
     public GameService()
     {
+      Running = true;
       Setup();
     }
 

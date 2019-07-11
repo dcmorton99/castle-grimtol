@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using CastleGrimtol.Project.Interfaces;
 
 namespace CastleGrimtol.Project.Models
@@ -26,7 +27,9 @@ namespace CastleGrimtol.Project.Models
         return Exits[dir];
 
       }
+      Console.Clear();
       Console.WriteLine("You can't go that way, sorry.");
+      Thread.Sleep(2000);
       return this;
     }
 
