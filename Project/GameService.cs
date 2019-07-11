@@ -9,6 +9,8 @@ namespace CastleGrimtol.Project
   {
     public Room CurrentRoom { get; set; }
     public Player CurrentPlayer { get; set; }
+    private bool Running = true;
+
 
     public void GetUserInput()
     {
@@ -32,7 +34,7 @@ namespace CastleGrimtol.Project
 
     public void Look()
     {
-      throw new System.NotImplementedException();
+      Console.WriteLine(CurrentRoom.Description);
     }
 
     public void Quit()
@@ -47,7 +49,7 @@ namespace CastleGrimtol.Project
 
     public void Setup()
     {
-      Console.Clear();
+
       //Rooms
       Room foyer = new Room("Foyer", "As you walk into the foyer, you see your favorite ficus overturned, soil spilled onto the Italian marble floor. You can hear the faint mewing of Blissa, but you aren't sure which direction it is coming from. To the north is entrance to the living room and to the east is an open window.");
       Room window = new Room("Window", "great job, you have accomplished nothing.");
@@ -67,7 +69,7 @@ namespace CastleGrimtol.Project
 
       //Exits
       foyer.Exits.Add("east", window);//if you go to the window, nothing happens
-      foyer.Exits.Add("north", livRoom);//if you go to the window, nothing happens
+      foyer.Exits.Add("north", livRoom);
       livRoom.Exits.Add("north", kitchen);
       livRoom.Exits.Add("west", landing);
       landing.Exits.Add("north", bedroom);
@@ -80,14 +82,38 @@ namespace CastleGrimtol.Project
       foyer.Items.Add(evian);
       landing.Items.Add(yarn);
 
-
+      //Adding exit options
       CurrentRoom = foyer;
 
+      Console.WriteLine("Welcome to Barbie and the Life in the Dreamhouse! What is your name?");
+      string name = Console.ReadLine();
+      CurrentPlayer = new Player(name);
+      StartGame();
     }
 
     public void StartGame()
     {
-      //
+      while (Running)
+      {
+        Console.Clear();
+        CurrentRoom.PrintRoom();
+        Console.WriteLine("What would you like to do?<go 'direction', take 'item', look, use 'item'>"); //clarify through text later
+        string response = Console.ReadLine().ToLower();
+        string[] inputs = response.Split(' ');
+        string command = inputs[0];
+        // string option = "";
+        // if (inputs.Length > 1)
+        // {
+        //   option = inputs[1];
+        // }
+        // switch (command)
+        // {
+
+        // }
+
+
+
+      }
     }
 
     public void TakeItem(string itemName)
@@ -100,9 +126,12 @@ namespace CastleGrimtol.Project
       throw new System.NotImplementedException();
     }
 
-    public GameService(string currentPlayer, string currentRoom)
-    {
 
+    public GameService()
+    {
+      Setup();
     }
+
+
   }
 }
