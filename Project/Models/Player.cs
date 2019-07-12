@@ -9,6 +9,7 @@ namespace CastleGrimtol.Project.Models
     public string PlayerName { get; set; }
     public List<Item> Inventory { get; set; }
 
+
     public void holding()
     {
       Inventory = new List<Item>(){
@@ -18,6 +19,7 @@ namespace CastleGrimtol.Project.Models
     }
     public void PrintInventory()//can't even hit this...
     {
+      Console.WriteLine("do I even have inventory?");
       int count = 1;
       foreach (var item in Inventory)
       {

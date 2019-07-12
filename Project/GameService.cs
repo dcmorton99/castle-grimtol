@@ -38,8 +38,7 @@ namespace CastleGrimtol.Project
           break;
         case "inventory":
           Console.Clear();
-          Console.WriteLine("You have the following:");
-          CurrentPlayer.PrintInventory();
+          Inventory();
           break;
         case "quit":
           Quit();
@@ -57,12 +56,13 @@ namespace CastleGrimtol.Project
 
     public void Inventory()
     {
-      throw new System.NotImplementedException();
+      Console.WriteLine("You have the following:");
+      CurrentPlayer.PrintInventory();
     }
 
     public void Look()
     {
-
+      Console.WriteLine("am I hitting the look function?");//I don't think I am hitting this
       Thread.Sleep(1000);
       Console.WriteLine($"{ CurrentRoom.Description}");
     }
