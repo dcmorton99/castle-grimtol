@@ -20,17 +20,15 @@ namespace CastleGrimtol.Project.Models
     public void PrintInventory()//can't even hit this...
     {
       Console.WriteLine("do I even have inventory?");
-      int count = 1;
-      foreach (var item in Inventory)
-      {
-        Console.WriteLine($"{count}) {item.Name}");
-        count++;
-      }
+
     }
+
+
 
     public Player(string playerName)
     {
       PlayerName = playerName;
+      Inventory = new List<Item>();
       holding();
     }
   }

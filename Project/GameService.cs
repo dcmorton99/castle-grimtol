@@ -15,7 +15,6 @@ namespace CastleGrimtol.Project
 
     public void GetUserInput()
     {
-      Console.WriteLine("What would you like to do?<go 'direction', take 'item', look, use 'item', inventory, quit>");
       string response = Console.ReadLine().ToLower();
       string[] inputs = response.Split(' ');
       string command = inputs[0];
@@ -37,8 +36,11 @@ namespace CastleGrimtol.Project
           Look();
           break;
         case "inventory":
-          Console.Clear();
+          Console.WriteLine("You have the following: ");
           Inventory();
+          break;
+        case "help":
+          Help();
           break;
         case "quit":
           Quit();
@@ -47,17 +49,24 @@ namespace CastleGrimtol.Project
       }
     }
 
-    public void Go(string direction) => CurrentRoom = (Room)CurrentRoom.LeaveRoom(direction);
+    public void Go(string direction)
+    {
+      CurrentRoom = (Room)CurrentRoom.LeaveRoom(direction);
+    }
 
     public void Help()
     {
-      throw new System.NotImplementedException();
+      Console.WriteLine("Please choose a command. Type 'quit' if you are done playing.");
     }
 
     public void Inventory()
     {
-      Console.WriteLine("You have the following:");
-      CurrentPlayer.PrintInventory();
+      int count = 1;
+      foreach (var item in CurrentPlayer.Inventory)
+      {
+        Console.WriteLine($"{count}) {item.Name}");
+        count++;
+      }
     }
 
     public void Look()
@@ -139,17 +148,21 @@ namespace CastleGrimtol.Project
     {
       while (Running)
       {
-        Console.Clear();
         CurrentRoom.PrintRoom();
+        Console.WriteLine("What would you like to do?<go 'direction', take 'item', look, use 'item', inventory, quit>");
         GetUserInput();
       }
     }
 
     public void TakeItem(string itemName)
     {
-      //will take in the item name as a string
-      //will match 
-      throw new System.NotImplementedException();
+      Item foundItem = CurrentRoom.Items.Find(i => i.Name == itemName);
+      if (foundItem != null)
+      {
+        CurrentRoom.Items.Remove(foundItem);
+        CurrentPlayer.Inventory.Add(foundItem);
+      }
+      Console.WriteLine("That isn't even in the room");
     }
 
     public void UseItem(string itemName)
