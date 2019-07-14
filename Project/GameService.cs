@@ -36,7 +36,8 @@ namespace CastleGrimtol.Project
           Look();
           break;
         case "inventory":
-          Console.WriteLine("You have the following: ");
+
+
           Inventory();
           break;
         case "help":
@@ -44,6 +45,12 @@ namespace CastleGrimtol.Project
           break;
         case "quit":
           Quit();
+          break;
+        case "restart":
+          Reset();
+          break;
+        default:
+          Console.WriteLine("Invalid command, type 'help' if you are confused.");
           break;
 
       }
@@ -61,11 +68,20 @@ namespace CastleGrimtol.Project
 
     public void Inventory()
     {
-      int count = 1;
-      foreach (var item in CurrentPlayer.Inventory)
+      Console.Clear();
+      if (CurrentPlayer.Inventory.Count > -1)
       {
-        Console.WriteLine($"{count}) {item.Name}");
-        count++;
+        Console.WriteLine("You have the following: ");
+        int count = 1;
+        foreach (var item in CurrentPlayer.Inventory)
+        {
+          Console.WriteLine($"{count}) {item.Name}");
+          count++;
+        }
+      }
+      else
+      {
+        Console.WriteLine("Your Inventory is empty.");
       }
     }
 
@@ -94,22 +110,70 @@ namespace CastleGrimtol.Project
 
     public void Reset()
     {
-      throw new System.NotImplementedException();
+      Console.Clear();
+      Console.WriteLine(@"
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#(((((((#@@@@@@@@@@@@#((((((((((((((#@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(((.   .((((((#@@@&((((/.         ./(((((#@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@((/      .((((((((((((.                ./(((((#@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&(((((((#@@@@@@@@@@@@(((      .(((((((((/                      ,((((((((#@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#((/.  ((((((((&@@@@@@@@/((*. ./(,.((((((,       ./(((((,       /((((((((((((#@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(((,     .(((((((((((@@@@@@@(((((.   *((((.       (((((((,       (((((((((((((((((@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/(((        ((((((((((((((((((((/       /(((      ,((((((*       *(((((((((((((((((((&@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/((/       (((((((/.      ,/((((.      ((*     .(((((*       *((      .((((((((((((((@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@((,      .((((.            .(((      .(,     .(((/       .(((*        ((((((((((((((@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(((.      *(.                .(/      */      /(.       /((((/        *(((((((((((((#@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#((((((/       ,       *//,        /       /               ((((((((/      *((((((((((((((@@@
+@@@@@@@@@@@@@@@@#((((((((((((((%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&((((*                     .(((((*       *       ,            ((((((((((.      /((((((((((((((@@@
+@@@@@@@@@@@@#((((((/*,...,*/((((((#@@@@@@@@@@@@@@@@@@@@@@@@@(((.            ,           ,(((((((/       *      *.         *(((((((((*       ,(((((((((((((((@@@
+@@@@@@@@@#((((/.               ./(((((&@@@@@@@@&%((((((((#(((,              (.      *((((((((((((/       ,      /,          ./(((/.        ,(((((((((((((((/@@@
+@@@@@@@#((((,                     .((((((#@@((((((//,..,*((/          (*,,/(((       /((((((((((((*      *       ((                       /((((((((((((((((@@@@
+@@@@@@(((/           .,///,         ,(((((((/.             .((       ,((((((((/       (((((((((((((      .(      .(((/                 *((((((((((((((((((*@@@@
+@@@@@(((,        *(((((((((((.       ,((((.                 .(/       (((((((((.      .((((((((((((      .(/      *(((((/.         .*((((((((((((((((((((*@@@@@
+@@@@/((.       ((((/((((((((((,       ((/        ,/((/       ,(.      ,(((((((((       /(((((((((((      *((*      /((((((((((((((((((((((((((((((((((((@@@@@@@
+@@@@((/      ,(((.  ,((((((((((       ((.      (((((((*       /(       (((((((((/       ((((((((((,      ((((.      *(((((((((((((((((((((((((((((((((/@@@@@@@@
+@@@@((,     ,(*      *(((((((((       ((,      *(((((,         (/      .(((((((((*      .(((((((/       /((((/   ,/((((((((((((((((((((((((((((((//@@@@@@@@@@@@
+@@@@((,     */        /(((((((*      *((/      ((/             ,(,      *(((((((((.      *(((/,        *(((((((((((((((((((((((((((((((((////@@@@@@@@@@@@@@@@@@
+@@@@((/                (((((*       .(((((///((.                *(       /(((((((((                   /((((((((((((((((((((((((((((((((@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@/((                ,.                ./((,         /(/       //      .(((((((((/               ,((((((((((((((((((((((((((((/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@((.      ,(                                   *(((((/       (*      ,(((((((((/        .,/(((((((((((((((((((((@@*((/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@,/((((((((/              ....              *((((((((,      .(.      /(((((((((((((((((((((((((((((((((((((((@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@/((((((,        *((((((((((*          ,(((((((((*       *(       *(((((((((((((((((((((((((((((((((((/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@/((((.      *((((((((((((*         ,((((((((*         /*    .*((((((((((((((((((((((((((((((((((/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@((((       /((((((((((((*          *//*              (/(((((((((((((((((((((((((((((((((((/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@((/       (((((((((((((                     * */((((((((((((((((((((((((((((((((((((/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@%#((((((((((*      .((((((((((((                   /((((((((((((((((((((((((((((((((((//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@&(((/*..  ..*/((.      ,((((((((((*               */(((((((((((((((((((((((/////((@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@%((.                      *((((((((,       (((((((((((((((((((((((((((((((/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@#((.                        */(((/.        /((((((((((((((((((((((((((((/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@((,      ./((//.                         ,(((((((((((((((((((((((((((/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@(((      /(((*     ./.                  *(((((((((((((((((((((((///@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@(/      *(((       .((((((//,.  .,*/(((((((((((((((((((/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@((        .,       ,(((((((((((((((((((((((((((((((((((@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@(((                (((((((((((((((((((((((((((((((((/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@(((.            ,(((((((((((((((((/(((((((((((((((@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@(((/*.   ,/(((((((((((((((((((@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@(/((((((((((((((((((((((((@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@*(((((((((((((((((((*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@//(((((((((((,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      GameService game = new GameService();
+      game.StartGame();
     }
 
     public void Setup()
     {
 
       //Rooms
-      Room foyer = new Room("Foyer", "As you walk into the foyer, you see your favorite ficus overturned, soil spilled onto the Italian marble floor.There is an unopened bottle of evian sitting on your foyer table. You can hear the faint mewing of Blissa, but you aren't sure which direction it is coming from. To the north is entrance to the living room and to the east is an open window.");
-      Room window = new Room("Window", "great job, you have accomplished nothing.");
-      Room livRoom = new Room("Living Room", "Passing through the entry way, you hear dishes clanging from the kitchen. The door to the kitchen is north, but you still hear Blissa mewing, this time a bit more frantically. The sound could be coming from upstairs. Do you go to the kitchen to investigate, or to you take the stairs to the west?");
-      Room kitchen = new Room("Kitchen", "Nothing to see hear, Skipper is just making a mess and some cookies. As you approach Skipper, you hear a loud crash come from upstairs and very clearly hear Blissa frantically shrieking!");
-      Room landing = new Room("Upstairs Landing", "Upstairs, two doors, north to your bedroom or west to skippers room");
-      Room bedroom = new Room("Bedroom", "fill this in later,be sure to use the keys you walked into the house with. Blissa is in the dream closet");
-      Room skRoom = new Room("Skipper's Bedroom", "Wrong choice, loud crash, cat shrieking, fabric shredding noise");
-      Room closet = new Room("Dream Closet", "rush into room pick blissa up and give her a big hug. How sweet!");
-      Room bathroom = new Room("Bathroo", "Bathroom is the wrong choice!");
+      Room foyer = new Room("Foyer", "As you walk into the foyer, you see your favorite ficus overturned, soil spilled onto the Italian marble floor.There is an unopened bottle of evian sitting on your foyer table. You can hear the faint mewing of Blissa, but you aren't sure which direction it is coming from. To the north is entrance to the living room and to the east is an open window.", true);
+      Room window = new Room("Window", "great job, you have accomplished nothing.", true);
+      Room livRoom = new Room("Living Room", "Passing through the entry way, you hear dishes clanging from the kitchen. The door to the kitchen is north, but you still hear Blissa mewing, this time a bit more frantically. The sound could be coming from upstairs. Do you go to the kitchen to investigate, or to you take the stairs to the west?", true);
+      Room kitchen = new Room("Kitchen", "Nothing to see hear, Skipper is just making a mess and some cookies. As you approach Skipper, you hear a loud crash come from upstairs and very clearly hear Blissa frantically shrieking!", true);
+      Room landing = new Room("Upstairs Landing", "Upstairs, two doors, north to your bedroom or west to skippers room", true);
+      Room bedroom = new Room("Bedroom", "fill this in later,be sure to use the keys you walked into the house with. Blissa is in the dream closet", true);
+      Room skRoom = new Room("Skipper's Bedroom", "Wrong choice, loud crash, cat shrieking, fabric shredding noise", true);
+      Room closet = new Room("Dream Closet", "rush into room pick blissa up and give her a big hug. How sweet!", true);
+      Room bathroom = new Room("Bathroo", "Bathroom is the wrong choice!", false);
 
       //Items
       Item evian = new Item("Evian", "Unopened bottle sitting on the table in the foyer.");
@@ -149,15 +213,17 @@ namespace CastleGrimtol.Project
       while (Running)
       {
         CurrentRoom.PrintRoom();
+        Console.WriteLine();
         Console.WriteLine("What would you like to do?<go 'direction', take 'item', look, use 'item', inventory, quit>");
         GetUserInput();
+
       }
     }
 
     public void TakeItem(string itemName)
     {
       Item foundItem = CurrentRoom.Items.Find(i => i.Name == itemName);
-      if (foundItem != null)
+      if (itemName != null)
       {
         CurrentRoom.Items.Remove(foundItem);
         CurrentPlayer.Inventory.Add(foundItem);
