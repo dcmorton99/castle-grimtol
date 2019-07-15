@@ -12,6 +12,8 @@ namespace CastleGrimtol.Project.Models
 
     public bool Unlocked { get; set; }
 
+    public bool Lose { get; set; }
+
 
     public List<Item> Items { get; set; }
     public Dictionary<string, IRoom> Exits { get; set; }
@@ -20,6 +22,7 @@ namespace CastleGrimtol.Project.Models
     {
       Console.WriteLine($"You are now in the {Name}");
       Console.WriteLine(Description);
+      Console.WriteLine("What would you like to do? Type 'help' if you are unsure.");
     }
 
 
@@ -39,7 +42,7 @@ namespace CastleGrimtol.Project.Models
 
 
 
-    public Room(string name, string description, bool unlocked)
+    public Room(string name, string description, bool unlocked, bool lose)
     {
       Name = name;
       Description = description;

@@ -36,6 +36,9 @@ namespace CastleGrimtol.Project
         case "look":
           Look();
           break;
+        case "inventory":
+          CurrentRoom.PrintRoom();
+          break;
         case "purse":
           Inventory();
           break;
@@ -77,7 +80,7 @@ namespace CastleGrimtol.Project
 
     public void Inventory()
     {
-      if (CurrentPlayer.Inventory.Count > -1)
+      if (CurrentPlayer.Inventory.Count > 0)
       {
         Console.WriteLine("You have the following: ");
         int count = 1;
@@ -184,15 +187,15 @@ namespace CastleGrimtol.Project
       Console.WriteLine();
 
       //Rooms
-      Room foyer = new Room("Foyer", "As you walk into the foyer, your drop your keys on the foyer table and set your shopping bags on the ground. You look around and see that your favorite ficus overturned, soil spilled onto the Italian marble floor.There is an unopened bottle of evian sitting on your foyer table. You can hear the faint mewing of Blissa (your favorite fluffy cat), but you aren't sure which direction it is coming from. To the north is the entrance to the living room and to the east is an open window.", true);
-      Room window = new Room("Window", "great job, you have accomplished nothing.", true);
-      Room livRoom = new Room("Living Room", "Passing through the entry way, you hear dishes clanging from the kitchen. The door to the kitchen is north, but you still hear Blissa mewing, this time a bit more frantically. The sound could be coming from upstairs. Do you go north to the kitchen to investigate those clanging noises, or do you take the stairs to the west?", true);
-      Room kitchen = new Room("Kitchen", "Nothing to see hear, Skipper is just making a mess and some cookies. As you approach Skipper, you hear a loud crash come from upstairs and very clearly hear Blissa frantically shrieking!", true);
-      Room landing = new Room("Upstairs Landing", "You've made it upstairs, and at first glance everything looks fine. You can go north to your bedroom or take the door to the west, which is Skipper's room. There is a bright pink ball of yarn sitting just outside your bedroom door. As you stand there thinking, you hear scratching at a door, but it sounds faint, like it might be coming from another room inside one of the bedrooms. Which way should you go?", true);
-      Room bedroom = new Room("Bedroom", "As you rush into your room, you see the Dream Closet door to the east is closed, but so is the bathroom door on the west side of the room. You can hear more frantic scratching coming from behind one of those doors.", true);
-      Room skRoom = new Room("Skipper's Bedroom", "Nope, Blissa isn't in here. You hear a very loud crash, Blissa shrieking, and the sickening sound of expensive fabric being shredded.", true);
-      Room closet = new Room("Dream Closet", "Your try to open the door to the Dream Closet, but it is locked. Did you remember to bring your keys?", false);
-      Room bathroom = new Room("Bathroom", "Bathroom is the wrong choice!", true);
+      Room foyer = new Room("Foyer", "As you walk into the foyer, your drop your keys on the foyer table and set your shopping bags on the ground. You look around and see that your favorite ficus overturned, soil spilled onto the Italian marble floor.There is an unopened bottle of evian sitting on your foyer table. You can hear the faint mewing of Blissa (your favorite fluffy cat), but you aren't sure which direction it is coming from. To the north is the entrance to the living room and to the east is an open window.", true, false);
+      Room window = new Room("Window", "Great job, you have accomplished nothing. You have now fallen out of the window and died.", true, true);
+      Room livRoom = new Room("Living Room", "Passing through the entry way, you hear dishes clanging from the kitchen. The door to the kitchen is north, but you still hear Blissa mewing, this time a bit more frantically. The sound could be coming from upstairs. Do you go north to the kitchen to investigate those clanging noises, or do you take the stairs to the west?", true, false);
+      Room kitchen = new Room("Kitchen", "Nothing to see hear, Skipper is just making a mess and some cookies. As you approach Skipper, you hear a loud crash come from upstairs and very clearly hear Blissa frantically shrieking!", true, false);
+      Room landing = new Room("Upstairs Landing", "You've made it upstairs, and at first glance everything looks fine. You can go north to your bedroom or take the door to the west, which is Skipper's room. There is a bright pink ball of yarn sitting just outside your bedroom door. As you stand there thinking, you hear scratching at a door, but it sounds faint, like it might be coming from another room inside one of the bedrooms. Which way should you go?", true, false);
+      Room bedroom = new Room("Bedroom", "As you rush into your room, you see the Dream Closet door to the east is closed, but so is the bathroom door on the west side of the room. You can hear more frantic scratching coming from behind one of those doors.", true, false);
+      Room skRoom = new Room("Skipper's Bedroom", "Nope, Blissa isn't in here. You hear a very loud crash, Blissa shrieking, and the sickening sound of expensive fabric being shredded.", true, false);
+      Room closet = new Room("Dream Closet", "Your try to open the door to the Dream Closet, but it is locked. Did you remember to bring your keys?", false, false);
+      Room bathroom = new Room("Bathroom", "Bathroom is the wrong choice!", true, false);
 
       //Items
       Item evian = new Item("evian", "Unopened bottle sitting on the table in the foyer.");
@@ -238,8 +241,13 @@ namespace CastleGrimtol.Project
       CurrentRoom.PrintRoom();
       while (Running)
       {
-        Console.WriteLine("What would you like to do? Type 'help' if you are unsure.");
         GetUserInput();
+        if (CurrentRoom.Name == "Window")
+        {
+          Console.Clear();
+          Console.WriteLine("You have chosen poorly, and so Blissa has destroyed your entire closet, AND you died. Game over.");
+          Running = false;
+        }
 
       }
     }
@@ -262,7 +270,8 @@ namespace CastleGrimtol.Project
 
     public void UseItem(string itemName)
     {
-      if (itemName == "keys" && CurrentRoom.Unlocked == false)
+      Item keyItem = CurrentPlayer.Inventory.Find(i => i.Name == itemName);
+      if (keyItem.Name == "keys" && CurrentRoom.Unlocked == false)
       {
         CurrentRoom.Unlocked = true;
         Console.WriteLine();
@@ -272,7 +281,8 @@ namespace CastleGrimtol.Project
       }
       else
       {
-        Console.WriteLine("That doesn't do anything, but you like carrying it anyway.");
+        Console.WriteLine("You didn't make it in time, now you have to go back and get the keys. You will not be able to save any of your precious clothing.");
+
       }
     }
 
