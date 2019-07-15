@@ -43,7 +43,6 @@ namespace CastleGrimtol.Project.Models
     {
       Name = name;
       Description = description;
-      Unlocked = unlocked;
       Items = new List<Item>();
       Exits = new Dictionary<string, IRoom>();
     }
