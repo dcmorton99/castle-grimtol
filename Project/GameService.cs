@@ -272,7 +272,7 @@ namespace CastleGrimtol.Project
       }
       else
       {
-        Console.WriteLine("That doesn't do anything. But you like carrying it anyway.");
+        Console.WriteLine("That doesn't do anything, but you like carrying it anyway.");
       }
     }
 
