@@ -28,6 +28,7 @@ namespace CastleGrimtol.Project
         case "go":
           Console.Clear();
           Go(option);
+          CurrentRoom.PrintRoom();
           break;
         case "take":
           TakeItem(option);
@@ -76,7 +77,6 @@ namespace CastleGrimtol.Project
 
     public void Inventory()
     {
-      Console.Clear();
       if (CurrentPlayer.Inventory.Count > -1)
       {
         Console.WriteLine("You have the following: ");
@@ -127,6 +127,7 @@ namespace CastleGrimtol.Project
     public void Reset()
     {
       Console.Clear();
+      Thread.Sleep(2000);
       Console.WriteLine(@"
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#(((((((#@@@@@@@@@@@@#((((((((((((((#@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -232,10 +233,10 @@ namespace CastleGrimtol.Project
 
     public void StartGame()
     {
+      CurrentRoom.PrintRoom();
       while (Running)
       {
-        CurrentRoom.PrintRoom();
-        Console.WriteLine("What would you like to do?<go 'direction', take 'item', look, use 'item', inventory, quit>");
+        Console.WriteLine("What would you like to do? Type 'help' if you are unsure.");
         GetUserInput();
 
       }
