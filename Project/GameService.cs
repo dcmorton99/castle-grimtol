@@ -32,12 +32,9 @@ namespace CastleGrimtol.Project
           TakeItem(option);
           break;
         case "look":
-          Console.Clear();
           Look();
           break;
-        case "inventory":
-
-
+        case "purse":
           Inventory();
           break;
         case "help":
@@ -63,7 +60,8 @@ namespace CastleGrimtol.Project
 
     public void Help()
     {
-      Console.WriteLine("Please choose a command. Type 'quit' if you are done playing.");
+      Console.WriteLine("Please choose a command: Type 'quit' if you are done playing.");
+      Console.WriteLine("Type 'quit' if you are done playing, 'restart' to start over, 'purse' to see what you have.");
     }
 
     public void Inventory()
@@ -87,9 +85,17 @@ namespace CastleGrimtol.Project
 
     public void Look()
     {
-      Console.WriteLine("am I hitting the look function?");//I don't think I am hitting this
+      Console.Clear();
       Thread.Sleep(1000);
       Console.WriteLine($"{ CurrentRoom.Description}");
+      Console.WriteLine();
+      Console.WriteLine($"The room contains the following items:");
+      int counter = 1;
+      foreach (var item in CurrentRoom.Items)
+      {
+        Console.WriteLine($"{counter}) {item.Name}");
+        counter++;
+      }
     }
 
     public void Quit()
@@ -176,10 +182,10 @@ namespace CastleGrimtol.Project
       Room bathroom = new Room("Bathroo", "Bathroom is the wrong choice!", false);
 
       //Items
-      Item evian = new Item("Evian", "Unopened bottle sitting on the table in the foyer.");
-      Item yarn = new Item("Ball of Yarn", "Pink ball of yarn sitting in the corner of the landing.");
-      Item keys = new Item("Keys", "house keys and car keys on a key ring with a giant plastic 'B'");
-      Item bags = new Item("Shopping Bags", "Two huge shopping bags filled with new clothes and some new toys for Blissa.");
+      Item evian = new Item("evian", "Unopened bottle sitting on the table in the foyer.");
+      Item yarn = new Item("yarn", "Pink ball of yarn sitting in the corner of the landing.");
+      Item keys = new Item("keys", "house keys and car keys on a key ring with a giant plastic 'B'");
+      Item bags = new Item("bags", "Two huge shopping bags filled with new clothes and some new toys for Blissa.");
 
       //Exits
       foyer.Exits.Add("east", window);//if you go to the window, nothing happens
@@ -197,6 +203,8 @@ namespace CastleGrimtol.Project
       //Relationships
       //Items in Room
       foyer.Items.Add(evian);
+      foyer.Items.Add(keys);
+      foyer.Items.Add(bags);
       landing.Items.Add(yarn);
 
       //Adding exit options
@@ -205,7 +213,7 @@ namespace CastleGrimtol.Project
       Console.WriteLine("Welcome to Barbie and the Life in the Dreamhouse! What is your name?");
       string name = Console.ReadLine();
       CurrentPlayer = new Player(name);
-
+      StartGame();
     }
 
     public void StartGame()
@@ -223,12 +231,17 @@ namespace CastleGrimtol.Project
     public void TakeItem(string itemName)
     {
       Item foundItem = CurrentRoom.Items.Find(i => i.Name == itemName);
-      if (itemName != null)
+      if (foundItem != null)
       {
         CurrentRoom.Items.Remove(foundItem);
         CurrentPlayer.Inventory.Add(foundItem);
+        Console.Clear();
+        Console.WriteLine($"{foundItem.Name} is now in your inventory.");
       }
-      Console.WriteLine("That isn't even in the room");
+      else
+      {
+        Console.WriteLine($"{itemName} isn't even in the room, maybe it's in your hand?");
+      }
     }
 
     public void UseItem(string itemName)
@@ -239,7 +252,6 @@ namespace CastleGrimtol.Project
 
     public GameService()
     {
-
       Setup();
     }
 

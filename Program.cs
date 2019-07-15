@@ -59,7 +59,7 @@ namespace CastleGrimtol
 
       Console.WriteLine();
       GameService game = new GameService();
-      game.StartGame();
+
 
     }
   }

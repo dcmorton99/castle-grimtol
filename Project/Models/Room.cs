@@ -22,6 +22,8 @@ namespace CastleGrimtol.Project.Models
       Console.WriteLine(Description);
     }
 
+
+
     public IRoom LeaveRoom(string dir)
     {
       if (Exits.ContainsKey(dir))
